@@ -1,10 +1,13 @@
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+
+
+db = SQLAlchemy()
 
 
 class PythonStory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(200), unique=True)
-    url = db.Column(db.String(100), unique=True)
+    title = db.Column(db.String(200))
+    url = db.Column(db.String(100))
     score = db.Column(db.Integer)
 
     def __init__(self, title, url, score):

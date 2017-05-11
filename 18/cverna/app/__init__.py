@@ -1,13 +1,17 @@
 from flask import Flask
-from app.main import main
-from flask_sqlalchemy import SQLAlchemy
+
+
+from app.views.stories import stories
+
 
 def create_app():
     app = Flask(__name__)
     app.config.from_pyfile('config.cfg')
-    app.register_blueprint(main)
-    return app
 
-app = create_app()
-db = SQLAlchemy(app)
-db.create_all()
+    from app.models import db
+    db.init_app(app)
+    with app.test_request_context():
+        db.create_all()
+
+    app.register_blueprint(stories)
+    return app
