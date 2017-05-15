@@ -5,11 +5,6 @@ from app.models import db, PythonStory
 stories = Blueprint('stories', __name__, template_folder='templates')
 
 
-@stories.route('/', methods=['GET'])
-def index():
-   return render_template('index.html')
-
-
 @stories.route('/add', methods=['POST'])
 def add_story():
     hn_story = request.get_json()
@@ -21,3 +16,8 @@ def add_story():
     db.session.commit()
     response = {'success': True}
     return jsonify(response), 200
+
+@stories.route('/', methods=['GET'])
+def get_stories():
+    stories = PythonStory.query.all()
+    return render_template('index.html', stories=stories)
